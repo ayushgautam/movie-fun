@@ -1,7 +1,13 @@
 package org.superbiz.moviefun;
 
 import org.junit.Test;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
+
+
+//import java.lang.reflect.Proxy;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -10,13 +16,18 @@ public class SmokeTest {
 
     @Test
     public void smokeTest() {
+
+        /*SimpleClientHttpRequestFactory clientHttpRequestFactory = new SimpleClientHttpRequestFactory();
+        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("localhost", 8080));
+        clientHttpRequestFactory.setProxy(proxy);*/
+
         RestTemplate restTemplate = new RestTemplate();
 
         String homePage = restTemplate.getForObject(url("/"), String.class);
 
         assertThat(homePage, containsString("Please select one of the following links:"));
 
-        String setupPage = restTemplate.getForObject(url("/setup.jsp"), String.class);
+        String setupPage = restTemplate.getForObject(url("/setup"), String.class);
 
         assertThat(setupPage, containsString("Wedding Crashers"));
         assertThat(setupPage, containsString("Starsky & Hutch"));
